@@ -27,7 +27,23 @@
 </head>
 
 <body>
-    
+    <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '958223090931562',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 
 <!-- Start of first page -->
 <div data-role="page" id="foo">
@@ -39,6 +55,12 @@
 	<div role="main" class="ui-content">
 		<p>I'm first in the source order so I'm shown as the page.</p>
 		<p>View internal page called <a href="#bar" data-transition="slide">bar</a></p>
+        <div class="event listening button" onclick="login();">Login with Facebook</div>
+            <div class="event listening button" onclick="showDialog();">Show Dialog with Facebook</div>
+            <div class="event listening button" onclick="apiTest();">Test API with Facebook</div>
+            <div class="event listening button" onclick="getAccessToken();">Get access token with Facebook</div>
+            <div class="event listening button" onclick="getStatus();">Get login status with Facebook</div>
+            <div class="event listening button" onclick="logout();">Logout with Facebook</div>
 	</div><!-- /content -->
 
 	<div data-role="footer" data-position="fixed">
@@ -62,6 +84,46 @@
 		<h4>Page Footer</h4>
 	</div><!-- /footer -->
 </div><!-- /page -->
+<script>
+            var login = function () {
+                if (window.cordova.platformId == "browser") {
+                    var appId = prompt("Enter FB Application ID", "958223090931562");
+                    facebookConnectPlugin.browserInit(appId);
+                }
+                facebookConnectPlugin.login( ["email"], 
+                    function (response) { alert(JSON.stringify(response)) },
+                    function (response) { alert(JSON.stringify(response)) });
+            }
+            
+            var showDialog = function () { 
+                facebookConnectPlugin.showDialog( { method: "feed" }, 
+                    function (response) { alert(JSON.stringify(response)) },
+                    function (response) { alert(JSON.stringify(response)) });
+            }
+            
+            var apiTest = function () { 
+                facebookConnectPlugin.api( "me/?fields=id,email", ["user_birthday"],
+                    function (response) { alert(JSON.stringify(response)) },
+                    function (response) { alert(JSON.stringify(response)) }); 
+            }
 
+            var getAccessToken = function () { 
+                facebookConnectPlugin.getAccessToken( 
+                    function (response) { alert(JSON.stringify(response)) },
+                    function (response) { alert(JSON.stringify(response)) });
+            }
+            
+            var getStatus = function () { 
+                facebookConnectPlugin.getLoginStatus( 
+                    function (response) { alert(JSON.stringify(response)) },
+                    function (response) { alert(JSON.stringify(response)) });
+            }
+
+            var logout = function () { 
+                facebookConnectPlugin.logout( 
+                    function (response) { alert(JSON.stringify(response)) },
+                    function (response) { alert(JSON.stringify(response)) });
+            }
+</script>
 </body>
 </html>

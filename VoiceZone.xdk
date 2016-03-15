@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-project-lite/sample.zip",
       "projectGuid": "4f6987d7-3494-4ce8-b699-25c4b75ae60d",
-      "lastModifiedDate": 1457367080802,
+      "lastModifiedDate": 1458042851570,
       "creationDate": 1457364684285
     },
     "XDK-app-designer": "false",
@@ -144,6 +144,29 @@
           ]
         },
         "description": "Cordova Media Plugin",
+        "data": {},
+        "dependedBy": []
+      },
+      {
+        "id": "phonegap-facebook-plugin",
+        "name": "Facebook Connect",
+        "version": "0.12.0",
+        "originType": "repo",
+        "origin": "https://github.com/Wizcorp/phonegap-facebook-plugin.git",
+        "gitref": "v0.12.0",
+        "subdir": ".",
+        "paramvals": {
+          "APP_ID": "958223090931562",
+          "APP_NAME": "VoiceZone"
+        },
+        "sourceLocation": "plugins/phonegap-facebook-plugin",
+        "selectedState": "Included",
+        "checksum": "ad6b92c9",
+        "dependsOn": [],
+        "topLevel": true,
+        "cordovaVersion": ">=3.5.0",
+        "permissions": {},
+        "description": "\r\n      This is the official plugin for Facebook in Apache Cordova/PhoneGap!\r\n      \r\n      The Facebook plugin for Apache Cordova allows you to use the same JavaScript code in your\r\n      Cordova application as you use in your web application.\r\n      Docs: https://github.com/Wizcorp/phonegap-facebook-plugin.\r\n    ",
         "data": {},
         "dependedBy": []
       }

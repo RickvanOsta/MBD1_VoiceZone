@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <!--
@@ -27,6 +28,7 @@
 </head>
 
 <body>
+<!--
     <script>
   window.fbAsyncInit = function() {
     FB.init({
@@ -44,46 +46,132 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
+-->
 
-<!-- Start of first page -->
-<div data-role="page" id="foo">
+<!-- LOGIN PAGE *****************************************************************-->
+<div data-role="page" id="login">
 
 	<div data-role="header" data-theme="b" class="header">
 		<h1>VoiceZone</h1>
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content">
+        <input type="text" name="usernameField" id="usernameField" placeholder="Username">
+        <input type="password" name="passwordField" id="passwordField" placeholder="password">
+        <a href="#timeline" class="ui-btn ui-corner-all" data-transition="slide" id="login">Login</a>
+        
 		<p>I'm first in the source order so I'm shown as the page.</p>
 		<p>View internal page called <a href="#bar" data-transition="slide">bar</a></p>
+        
         <div class="event listening button" onclick="login();">Login with Facebook</div>
-            <div class="event listening button" onclick="showDialog();">Show Dialog with Facebook</div>
-            <div class="event listening button" onclick="apiTest();">Test API with Facebook</div>
-            <div class="event listening button" onclick="getAccessToken();">Get access token with Facebook</div>
-            <div class="event listening button" onclick="getStatus();">Get login status with Facebook</div>
-            <div class="event listening button" onclick="logout();">Logout with Facebook</div>
+        <div class="event listening button" onclick="showDialog();">Show Dialog with Facebook</div>
+        <div class="event listening button" onclick="apiTest();">Test API with Facebook</div>
+        <div class="event listening button" onclick="getAccessToken();">Get access token with Facebook</div>
+        <div class="event listening button" onclick="getStatus();">Get login status with Facebook</div>
+        <div class="event listening button" onclick="logout();">Logout with Facebook</div>
 	</div><!-- /content -->
 
 	<div data-role="footer" data-position="fixed">
 		<h4>Page Footer</h4>
 	</div><!-- /footer -->
 </div><!-- /page -->
-
-<!-- Start of second page -->
-<div data-role="page" id="bar">
+<!-- LOGIN PAGE END ***********************************************************-->
+    
+    
+    
+    
+    
+<!-- TIME LINE PAGE ************************************************************************ -->
+<div data-role="page" id="timeline">
 
 	<div data-role="header" class="header">
 		<h1>VoiceZone</h1>
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content">
-		<p>I'm the second in the source order so I'm hidden when the page loads. I'm just shown if a link that references my id is beeing clicked.</p>
-		<p><a href="#foo" data-transition="slide" data-direction="reverse">Back to foo</a></p>
+        <ul data-role="listview">
+            <li>Voice note 1</li>
+            <li>Voice note 2</li>
+            <li>Voice note 3</li>
+            <li>Voice note 4</li>
+            <li>Voice note 5</li>
+            <li>Voice note 6</li>
+            <li>Voice note 7</li>
+        </ul>
+        
 	</div><!-- /content -->
 
-	<div data-role="footer" data-position="fixed">
-		<h4>Page Footer</h4>
+	<div data-role="footer" data-position="fixed" data-id="footer">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#timeline" data-role="tab" data-prefetch="true" data-transition="slide" class="ui-btn-active ui-state-persist">Timeline</a></li>
+                <li><a href="#profile" data-role="tab" data-prefetch="true" data-transition="slide">My Profile</a></li>
+                <li><a href="#settings" data-role="tab" data-prefetch="true" data-transition="slide">Settings</a></li>
+            </ul>
+        </div>
 	</div><!-- /footer -->
+    
 </div><!-- /page -->
+<!-- TIME LINE PAGE END *************************************************************** -->
+    
+    
+    
+    
+    
+    
+    
+<div data-role="page" id="profile">
+    
+    <!-- HEADER -->
+    <div data-role="header" class="header">
+        <h1>Profile</h1>
+    </div>
+    <!-- /HEADER -->
+    
+    <!-- MAIN CONTENT -->
+    <div role="main" class="ui-content">
+        content
+    </div>
+    <!-- /MAIN CONTENT -->
+    
+    <div data-role="footer" data-position="fixed" data-id="footer">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#timeline" data-role="tab" data-prefetch="true" data-transition="slide">Timeline</a></li>
+                <li><a href="#profile" data-role="tab" data-prefetch="true" data-transition="slide" class="ui-btn-active ui-state-persist">My Profile</a></li>
+                <li><a href="#settings" data-role="tab" data-prefetch="true" data-transition="slide">Settings</a></li>
+            </ul>
+        </div>
+	</div><!-- /footer -->
+    
+</div>
+    
+<div data-role="page" id="settings">
+    
+    <!-- HEADER -->
+    <div data-role="header" class="header">
+        <h1>Settings</h1>
+    </div>
+    <!-- /HEADER -->
+    
+    <!-- MAIN CONTENT -->
+    <div role="main" class="ui-content">
+        content
+    </div>
+    <!-- /MAIN CONTENT -->
+  
+    <div data-role="footer" data-position="fixed" data-id="footer">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#timeline" data-role="tab" data-prefetch="true" data-transition="slide">Timeline</a></li>
+                <li><a href="#profile" data-role="tab" data-prefetch="true" data-transition="slide">My Profile</a></li>
+                <li><a href="#settings" data-role="tab" data-prefetch="true" data-transition="slide" class="ui-btn-active ui-state-persist">Settings</a></li>
+            </ul>
+        </div>
+	</div><!-- /footer -->
+    
+</div>
+    
 <script>
             var login = function () {
                 if (window.cordova.platformId == "browser") {

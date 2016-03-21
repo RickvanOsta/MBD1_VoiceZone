@@ -33,6 +33,19 @@ function onAppReady() {
     if( navigator.splashscreen && navigator.splashscreen.hide ) {   // Cordova API detected
         navigator.splashscreen.hide() ;
     }
+    
+    setNavBarTransitionNone();
+}
+
+function setNavBarTransitionNone() {
+    $("a[data-role=tab]").each(function () {
+        var anchor = $(this);
+        anchor.bind("click", function () {
+            $.mobile.changePage(anchor.attr("href"), {
+                transition: "none"
+            });
+        });
+    });
 }
 document.addEventListener("app.Ready", onAppReady, false) ;
 // document.addEventListener("deviceready", onAppReady, false) ;

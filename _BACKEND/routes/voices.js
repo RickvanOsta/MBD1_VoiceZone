@@ -6,7 +6,7 @@ var Voice = require('../models/voice');
 /* USERS */
 /* GET voices listing. */
 router.get('/', function(req, res) {
-        voice.find(function(err, voices) {
+        Voice.find(function(err, voices) {
 			if (err)
 				res.send(err);
 

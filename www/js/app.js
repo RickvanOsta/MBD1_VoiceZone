@@ -35,6 +35,7 @@ function onAppReady() {
     }
     
     setNavBarTransitionNone();
+    refreshList();
 }
 
 function setNavBarTransitionNone() {
@@ -47,6 +48,52 @@ function setNavBarTransitionNone() {
         });
     });
 }
+
+function refreshList() {
+    var voiceNotes = testData(); //get voice notes
+    
+    var ul = $('#voiceNotesList ul');
+    ul.empty(); //empty the list
+    
+    var ulProfile = $('#profileList ul');
+    ulProfile.empty();
+    
+    for (var i = 0; i < voiceNotes.length; i++) {
+        ul.append(
+            '<li>' +
+                '<h2>' + voiceNotes[i].title + '</h2>' +
+                '<p>' + voiceNotes[i].username + '</p>' +
+            '</li>'
+        );
+        
+        ulProfile.append(
+            '<li>' +
+                '<h2>' + voiceNotes[i].title + '</h2>' +
+                '<p>' + voiceNotes[i].username + '</p>' +
+            '</li>'
+        );
+    }
+    ul.listview('refresh');
+    ulProfile.listview('refresh');
+}
+
+function testData() {
+    
+    var voiceNotes = [];
+    
+    for (var i = 0; i < 10; i++) {
+        var note = {
+            'title': 'test titel ' + i,
+            'username': 'test username ' + i,
+            'file': 'test file ' + i
+        };
+        
+        voiceNotes.push(note);
+    }
+    
+    return voiceNotes;
+}
+
 document.addEventListener("app.Ready", onAppReady, false) ;
 // document.addEventListener("deviceready", onAppReady, false) ;
 // document.addEventListener("onload", onAppReady, false) ;

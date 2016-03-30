@@ -16,14 +16,20 @@
         @-ms-viewport { width: 100vw ; zoom: 100% ; }  @viewport { width: 100vw ; zoom: 100% ; }
         @-ms-viewport { user-zoom: fixed ; }           @viewport { user-zoom: fixed ; }
     </style>
-
-    <script src="cordova.js"></script>          <!-- phantom library, needed for Cordova api calls, added during build -->
-    <script src="js/app.js"></script>           <!-- recommended location of your JavaScript code relative to other JS files -->
-    <script src="js/jquery-2.2.1.min.js"></script>
-    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    
     <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css">
     <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons-1.4.5.min.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile.iscrollview.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile.iscrollview-pull.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    
+    <script src="js/jquery-2.2.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/iscroll.js"</script>
+    <script src="js/jquery.mobile.iscrollview.js"></script>
+    <script src="cordova.js"></script>          <!-- phantom library, needed for Cordova api calls, added during build -->
+    <script src="js/app.js"></script>           <!-- recommended location of your JavaScript code relative to other JS files -->
+    
     <script src="xdk/init-dev.js"></script>     <!-- normalizes device and document ready events, see README for details -->
 </head>
 
@@ -51,14 +57,14 @@
 <!-- LOGIN PAGE *****************************************************************-->
 <div data-role="page" id="login">
 
-	<div data-role="header" data-theme="b" class="header">
+	<div data-role="header" data-theme="b" class="header" data-position="fixed">
 		<h1>VoiceZone</h1>
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content">
         <input type="text" name="usernameField" id="usernameField" placeholder="Username">
         <input type="password" name="passwordField" id="passwordField" placeholder="password">
-        <a href="#timeline" class="ui-btn ui-corner-all" data-transition="slide" id="login">Login</a>
+        <a href="#timeline" class="ui-btn ui-corner-all" data-transition="slide" id="loginButton">Login</a>
         
 		<p>I'm first in the source order so I'm shown as the page.</p>
 		<p>View internal page called <a href="#bar" data-transition="slide">bar</a></p>
@@ -84,24 +90,17 @@
 <!-- TIME LINE PAGE ************************************************************************ -->
 <div data-role="page" id="timeline">
 
-	<div data-role="header" class="header">
+	<div data-role="header" data-theme="b" class="header" data-tap-toggle="false"  data-position="fixed">
 		<h1>VoiceZone</h1>
 	</div><!-- /header -->
 
-	<div role="main" class="ui-content">
+	<div role="content" class="ui-content" id="voiceNotesList" data-iscroll>
         <ul data-role="listview">
-            <li>Voice note 1</li>
-            <li>Voice note 2</li>
-            <li>Voice note 3</li>
-            <li>Voice note 4</li>
-            <li>Voice note 5</li>
-            <li>Voice note 6</li>
-            <li>Voice note 7</li>
+            
         </ul>
-        
 	</div><!-- /content -->
 
-	<div data-role="footer" data-position="fixed" data-id="footer">
+	<div data-role="footer" data-position="fixed" data-id="footer" data-tap-toggle="false">
         <div data-role="navbar">
             <ul>
                 <li><a href="#timeline" data-role="tab" data-prefetch="true" data-transition="slide" class="ui-btn-active ui-state-persist">Timeline</a></li>
@@ -119,18 +118,25 @@
     
     
     
-    
+<!-- PROFILE PAGE ********************************************************************* -->
 <div data-role="page" id="profile">
     
     <!-- HEADER -->
-    <div data-role="header" class="header">
+    <div data-role="header" data-theme="b" class="header" data-position="fixed">
         <h1>Profile</h1>
     </div>
     <!-- /HEADER -->
     
     <!-- MAIN CONTENT -->
-    <div role="main" class="ui-content">
-        content
+    <div role="main" class="ui-content" id="profileList">
+        <h2>Voornaam Achternaam</h2>
+        <p>@Username</p>
+        
+        <h3>posts:</h3>
+        
+        <ul data-role="listview">
+            
+        </ul>
     </div>
     <!-- /MAIN CONTENT -->
     
@@ -145,18 +151,25 @@
 	</div><!-- /footer -->
     
 </div>
-    
+<!-- PROFILE PAGE END ************************************************************* -->
+
+
+
+
+
+
+<!-- SETTINGS PAGE *************************************************************** -->
 <div data-role="page" id="settings">
     
     <!-- HEADER -->
-    <div data-role="header" class="header">
+    <div data-role="header" data-theme="b" class="header" data-position="fixed">
         <h1>Settings</h1>
     </div>
     <!-- /HEADER -->
     
     <!-- MAIN CONTENT -->
     <div role="main" class="ui-content">
-        content
+        <a href="#" data-role="button" id="logoutButton">Logout</a>
     </div>
     <!-- /MAIN CONTENT -->
   
@@ -171,7 +184,10 @@
 	</div><!-- /footer -->
     
 </div>
-    
+<!-- SETTINGS PAGE END ************************************************************ -->
+
+
+
 <script>
             var login = function () {
                 if (window.cordova.platformId == "browser") {

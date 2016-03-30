@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-project-lite/sample.zip",
       "projectGuid": "4f6987d7-3494-4ce8-b699-25c4b75ae60d",
-      "lastModifiedDate": 1458044869802,
+      "lastModifiedDate": 1459332840944,
       "creationDate": 1457364684285
     },
     "XDK-app-designer": "false",
@@ -91,7 +91,8 @@
         "data": {},
         "dependedBy": [
           "cordova-plugin-media-capture",
-          "cordova-plugin-media"
+          "cordova-plugin-media",
+          "cordova-plugin-file-transfer"
         ]
       },
       {
@@ -167,6 +168,30 @@
         "cordovaVersion": ">=3.5.0",
         "permissions": {},
         "description": "\r\n      This is the official plugin for Facebook in Apache Cordova/PhoneGap!\r\n      \r\n      The Facebook plugin for Apache Cordova allows you to use the same JavaScript code in your\r\n      Cordova application as you use in your web application.\r\n      Docs: https://github.com/Wizcorp/phonegap-facebook-plugin.\r\n    ",
+        "data": {},
+        "dependedBy": []
+      },
+      {
+        "id": "cordova-plugin-file-transfer",
+        "name": "File Transfer",
+        "version": "1.4.0",
+        "originType": "cordova.io",
+        "origin": "cordova-plugin-file-transfer",
+        "gitref": "",
+        "paramvals": {},
+        "sourceLocation": "plugins/cordova-plugin-file-transfer",
+        "selectedState": "Included",
+        "checksum": "798b20f9",
+        "dependsOn": [
+          "cordova-plugin-file"
+        ],
+        "topLevel": true,
+        "permissions": {
+          "android:name": [
+            "android.permission.WRITE_EXTERNAL_STORAGE"
+          ]
+        },
+        "description": "Cordova File Transfer Plugin",
         "data": {},
         "dependedBy": []
       }

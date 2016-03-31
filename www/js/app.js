@@ -35,7 +35,12 @@ function onAppReady() {
     }
     
     setNavBarTransitionNone();
-    refreshList();
+    //refreshList();
+    fillList();
+    
+    //TESTTTTTTTTT ******************
+    //setUser();
+    getUser("56fd01c8d8996a742ae10953");
 }
 
 function setNavBarTransitionNone() {
@@ -47,6 +52,32 @@ function setNavBarTransitionNone() {
             });
         });
     });
+}
+
+function fillList() {
+    var voiceNotes = testData(); //get voice notes
+    
+    var ul = $('#voiceNotesList ul');
+    ul.empty(); //empty the list
+    
+    var ulProfile = $('#profileList ul');
+    ulProfile.empty();
+    
+    for (var i = 0; i < voiceNotes.length; i++) {
+        ul.append(
+            '<li>' +
+                '<h2>' + voiceNotes[i].title + '</h2>' +
+                '<p>' + voiceNotes[i].username + '</p>' +
+            '</li>'
+        );
+        
+        ulProfile.append(
+            '<li>' +
+                '<h2>' + voiceNotes[i].title + '</h2>' +
+                '<p>' + voiceNotes[i].username + '</p>' +
+            '</li>'
+        );
+    }
 }
 
 function refreshList() {
@@ -77,11 +108,17 @@ function refreshList() {
     ulProfile.listview('refresh');
 }
 
+function setUser(user) {
+
+    $('#fullname').append(user.firstname + " " + user.lastname);
+    $('#username').append(user.username);
+}
+
 function testData() {
     
     var voiceNotes = [];
     
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 20; i++) {
         var note = {
             'title': 'test titel ' + i,
             'username': 'test username ' + i,
@@ -92,6 +129,21 @@ function testData() {
     }
     
     return voiceNotes;
+}
+
+function getUser(userId) {
+    
+    console.log(userId);
+    console.log(url);
+    
+    $.ajax({
+        type: "GET",
+        url: url,
+        dataType: "json",
+        success: function(data) {
+            setUser(data);
+        }
+    });
 }
 
 document.addEventListener("app.Ready", onAppReady, false) ;

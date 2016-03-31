@@ -122,15 +122,17 @@
 <div data-role="page" id="profile">
     
     <!-- HEADER -->
-    <div data-role="header" data-theme="b" class="header" data-position="fixed">
+    <div data-role="header" data-theme="b" class="header" data-position="fixed" data-tap-toggle="false">
         <h1>Profile</h1>
     </div>
     <!-- /HEADER -->
     
     <!-- MAIN CONTENT -->
     <div role="main" class="ui-content" id="profileList">
-        <h2>Voornaam Achternaam</h2>
-        <p>@Username</p>
+        <h2 id="fullname"></h2>
+        <p id="username">@</p>
+        
+        <a href="#" class="ui-btn">Add new voice note</a>
         
         <h3>posts:</h3>
         
@@ -140,7 +142,7 @@
     </div>
     <!-- /MAIN CONTENT -->
     
-    <div data-role="footer" data-position="fixed" data-id="footer">
+    <div data-role="footer" data-position="fixed" data-id="footer" data-tap-toggle="false">
         <div data-role="navbar">
             <ul>
                 <li><a href="#timeline" data-role="tab" data-prefetch="true" data-transition="slide">Timeline</a></li>
@@ -169,7 +171,7 @@
     
     <!-- MAIN CONTENT -->
     <div role="main" class="ui-content">
-        <a href="#" data-role="button" id="logoutButton">Logout</a>
+        <a href="#login" data-role="button" id="logoutButton">Logout</a>
     </div>
     <!-- /MAIN CONTENT -->
   

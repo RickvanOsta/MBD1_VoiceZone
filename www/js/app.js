@@ -132,6 +132,7 @@ function testData() {
 }
 
 function getUser(userId) {
+    var url = "https://voicezone.herokuapp.com/users/" + userId;
     
     console.log(userId);
     console.log(url);

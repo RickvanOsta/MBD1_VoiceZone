@@ -36,7 +36,3 @@ User.prototype.getOne = function(userId) {
 
 //instantiate user object
 var user = new User();
-
-getUser = function(){
-    return user;
-}

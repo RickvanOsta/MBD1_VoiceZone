@@ -193,7 +193,7 @@ function captureSuccess(mediaFiles) {
     console.log('success');
     console.log(mediaFiles);
     for (i = 0; i < mediaFiles.length; i++) {
-        uploadFile(mediaFiles[i]);
+        voice.post(mediaFiles[i]);
     }
 }
 
@@ -201,46 +201,6 @@ function captureError(error) {
     console.log(error);
 }
 
-
-
-
-//UPLOAD ==============================================================
-
-// Upload files to server
-function uploadFile(mediaFile) {
-    
-    var ft = new FileTransfer(),
-        path = mediaFile.fullPath,
-        name = mediaFile.name;
-    
-    var options = { 
-                fileName: name,
-                mimeType: 'audio/wav'
-              };
-        
-    ft.upload(path,
-        //"http://posttestserver.com/post.php",
-        "http://localhost:3000/users/test",      
-        uploadSuccess,
-        function(error) {
-            console.log('Error uploading file ' + path + ': ' + error.code);
-        },
-        options
-        );   
-}
-
-function uploadSuccess(result) {
-    console.log('Upload success: ' + result.responseCode);
-    console.log(result.response);
-    console.log(result.bytesSent + ' bytes sent');
-}
-
-function uploadError(error, path) {
-    //console.log('Error uploading file ' + path + ': ' + error.code);
-    console.log('error');
-    console.log(error);
-    alert('ERROR');
-}
 
 document.addEventListener("app.Ready", onAppReady, false) ;
 // document.addEventListener("deviceready", onAppReady, false) ;

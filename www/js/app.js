@@ -39,11 +39,12 @@ function onAppReady() {
     fillList();
     
     //TESTTTTTTTTT ******************
-    //setUser();
-    getUser("56fd01c8d8996a742ae10953");
+    user.getOne("56fd01c8d8996a742ae10953");
+    $('#record').on('tap', captureAudio);
 }
 
 function setNavBarTransitionNone() {
+    console.log('navbar fix');
     $("a[data-role=tab]").each(function () {
         var anchor = $(this);
         anchor.bind("click", function () {
@@ -55,6 +56,7 @@ function setNavBarTransitionNone() {
 }
 
 function fillList() {
+    console.log('fill list');
     var voiceNotes = testData(); //get voice notes
     
     var ul = $('#voiceNotesList ul');
@@ -108,12 +110,6 @@ function refreshList() {
     ulProfile.listview('refresh');
 }
 
-function setUser(user) {
-
-    $('#fullname').append(user.firstname + " " + user.lastname);
-    $('#username').append(user.username);
-}
-
 function testData() {
     
     var voiceNotes = [];
@@ -131,20 +127,65 @@ function testData() {
     return voiceNotes;
 }
 
-function getUser(userId) {
-    var url = "https://voicezone.herokuapp.com/users/" + userId;
+
+
+// RECORD ===================================================================
+function captureAudio() {
+    navigator.device.capture.captureAudio(captureSuccess, captureError, {limit: 1});
+}
+
+function captureSuccess(mediaFiles) {
+    var i;
+    console.log('success');
+    console.log(mediaFiles);
+    for (i = 0; i < mediaFiles.length; i++) {
+        uploadFile(mediaFiles[i]);
+    }
+}
+
+function captureError(error) {
+    console.log(error);
+}
+
+
+
+
+//UPLOAD ==============================================================
+
+// Upload files to server
+function uploadFile(mediaFile) {
     
-    console.log(userId);
-    console.log(url);
+    var ft = new FileTransfer(),
+        path = mediaFile.fullPath,
+        name = mediaFile.name;
     
-    $.ajax({
-        type: "GET",
-        url: url,
-        dataType: "json",
-        success: function(data) {
-            setUser(data);
-        }
-    });
+    var options = { 
+                fileName: name,
+                mimeType: 'audio/wav'
+              };
+        
+    ft.upload(path,
+        //"http://posttestserver.com/post.php",
+        "http://localhost:3000/users/test",      
+        uploadSuccess,
+        function(error) {
+            console.log('Error uploading file ' + path + ': ' + error.code);
+        },
+        options
+        );   
+}
+
+function uploadSuccess(result) {
+    console.log('Upload success: ' + result.responseCode);
+    console.log(result.response);
+    console.log(result.bytesSent + ' bytes sent');
+}
+
+function uploadError(error, path) {
+    //console.log('Error uploading file ' + path + ': ' + error.code);
+    console.log('error');
+    console.log(error);
+    alert('ERROR');
 }
 
 document.addEventListener("app.Ready", onAppReady, false) ;

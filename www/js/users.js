@@ -9,8 +9,13 @@ var User = function() {
 
 //set user
 User.prototype.setUser = function(user) {
-    $('#fullname').html(user._name);
-    $('#username').html("ID_" + user._id);
+    
+    this.id = user._id;
+    this.name = user._name;
+    this.email = user._email;
+    this.token = user._token;
+    
+    setDom(this);
 }
 
 
@@ -30,8 +35,17 @@ User.prototype.getOne = function(userId) {
         dataType: "json",
         success: function(data) {
             self.setUser(data);
+        },
+        error: function(jqXHR, status, errorThrown) {
+            console.log("Error getting user");
+            console.log(request.responseText);
         }
     });
+}
+
+function setDom(user) {
+    $('#fullname').html(user.name);
+    $('#username').html("ID_" + user.id);
 }
 
 //instantiate user object

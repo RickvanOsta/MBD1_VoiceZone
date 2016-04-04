@@ -41,7 +41,7 @@ function onAppReady() {
     
     setNavBarTransitionNone();
     //refreshList();
-    fillList();
+    fillLists();
     
     //TESTTTTTTTTT ******************
     
@@ -109,30 +109,35 @@ function setNavBarTransitionNone() {
     });
 }
 
-function fillList() {
-    console.log('fill list');
-    var voiceNotes = testData(); //get voice notes
-    
+function fillLists() {
+    console.log('fill lists ajax');
+    voice.getAll(fillTimeLine); //testData(); //get voice notes
+
+}
+
+function fillTimeLine(voiceNotes) {
+    console.log('fill timeline');
+    console.log(voiceNotes);
     var ul = $('#voiceNotesList ul');
     ul.empty(); //empty the list
     
-    var ulProfile = $('#profileList ul');
-    ulProfile.empty();
+//    var ulProfile = $('#profileList ul');
+//    ulProfile.empty();
     
     for (var i = 0; i < voiceNotes.length; i++) {
         ul.append(
             '<li>' +
                 '<h2>' + voiceNotes[i].title + '</h2>' +
-                '<p>' + voiceNotes[i].username + '</p>' +
+                '<p> tap to listen! </p>' +
             '</li>'
         );
         
-        ulProfile.append(
-            '<li>' +
-                '<h2>' + voiceNotes[i].title + '</h2>' +
-                '<p>' + voiceNotes[i].username + '</p>' +
-            '</li>'
-        );
+//        ulProfile.append(
+//            '<li>' +
+//                '<h2>' + voiceNotes[i].title + '</h2>' +
+//                '<p>' + voiceNotes[i].username + '</p>' +
+//            '</li>'
+//        );
     }
 }
 

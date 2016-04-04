@@ -34,14 +34,68 @@ function onAppReady() {
         navigator.splashscreen.hide() ;
     }
     
+    var _name = "";
+    var _email = "";
+    var _token = "";
+    var _id = ""; 
+    
     setNavBarTransitionNone();
     //refreshList();
     fillList();
     
     //TESTTTTTTTTT ******************
-    user.getOne("56fd01c8d8996a742ae10953");
+    
     $('#record').on('tap', captureAudio);
+    
+    
+    $( "#loginButton" ).on("tap", function() {
+        listenForLogin();
+        intel.xdk.device.showRemoteSiteExt("https://voicezone.herokuapp.com/auth/facebook",280,0,50,50,60,60);
+    });  
+    
+    function listenForLogin(){
+        var hasFBNotFired = true;
+    window.addEventListener("intel.xdk.device.remote.close", function(){
+        if(hasFBNotFired){
+        $.ajax({
+            url: "https://voicezone.herokuapp.com/facebooklogin",
+            success: function(data){
+            if(!data.hasOwnProperty('facebook')){
+                alert("Login failed.");
+                }
+            else {
+                var tempUser = {
+                "_name" : data.facebook.name,
+                "_email" : data.facebook.email,
+                "_token" : data.facebook.token,
+                "_id" : data._id
+                }
+                user.setUser(tempUser);
+                $.mobile.changePage("#timeline");
+            }
+        }
+    });
+            hasFBNotFired = false;
+        }
+    });
+    hasFBNotFired = true;
+    }
+    
+    
+    
+    $( "#logoutButton" ).on("tap", function() {
+       $.ajax({
+            url: "https://voicezone.herokuapp.com/logout",
+            success: function(data){
+                listenForLogin();
+                $.mobile.changePage("#login");
+        }
+    });
+    });
+    
 }
+
+
 
 function setNavBarTransitionNone() {
     console.log('navbar fix');

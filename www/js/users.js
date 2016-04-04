@@ -9,8 +9,8 @@ var User = function() {
 
 //set user
 User.prototype.setUser = function(user) {
-    $('#fullname').append(user.firstname + " " + user.lastname);
-    $('#username').append(user.username);
+    $('#fullname').html(user._name);
+    $('#username').html("ID_" + user._id);
 }
 
 

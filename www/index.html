@@ -40,25 +40,7 @@
 </head>
 
 <body>
-<!--
-    <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '958223090931562',
-      xfbml      : true,
-      version    : 'v2.5'
-    });
-  };
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
--->
 
 <!-- LOGIN PAGE *****************************************************************-->
 <div data-role="page" id="login">
@@ -68,23 +50,15 @@
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content">
-        <input type="text" name="usernameField" id="usernameField" placeholder="Username">
-        <input type="password" name="passwordField" id="passwordField" placeholder="password">
-        <a href="#timeline" class="ui-btn ui-corner-all" data-transition="slide" id="loginButton">Login</a>
+        <a class="ui-btn ui-corner-all" data-transition="slide" id="loginButton">Login with Facebook</a>
         
-		<p>I'm first in the source order so I'm shown as the page.</p>
-		<p>View internal page called <a href="#bar" data-transition="slide">bar</a></p>
+		<p>Welcome to VoiceZone! The Twitter for Voice Messages!</p>
+		<p>Login with Facebook to make use of this awesome app!</p>
         
-        <div class="event listening button" onclick="login();">Login with Facebook</div>
-        <div class="event listening button" onclick="showDialog();">Show Dialog with Facebook</div>
-        <div class="event listening button" onclick="apiTest();">Test API with Facebook</div>
-        <div class="event listening button" onclick="getAccessToken();">Get access token with Facebook</div>
-        <div class="event listening button" onclick="getStatus();">Get login status with Facebook</div>
-        <div class="event listening button" onclick="logout();">Logout with Facebook</div>
 	</div><!-- /content -->
 
 	<div data-role="footer" data-position="fixed">
-		<h4>Page Footer</h4>
+		<h4>&copy; Raymond & Rick 2016</h4>
 	</div><!-- /footer -->
 </div><!-- /page -->
 <!-- LOGIN PAGE END ***********************************************************-->
@@ -136,7 +110,7 @@
     <!-- MAIN CONTENT -->
     <div role="main" class="ui-content" id="profileList">
         <h2 id="fullname"></h2>
-        <p id="username">@</p>
+        <p id="username">ID_</p>
         
         <button id="record">Record new</button>
         <h3>posts:</h3>
@@ -176,7 +150,7 @@
     
     <!-- MAIN CONTENT -->
     <div role="main" class="ui-content">
-        <a href="#login" data-role="button" id="logoutButton">Logout</a>
+        <a data-role="button" id="logoutButton">Logout</a>
     </div>
     <!-- /MAIN CONTENT -->
   
@@ -195,46 +169,6 @@
 
 
 
-<script>
-            var login = function () {
-                if (window.cordova.platformId == "browser") {
-                    var appId = prompt("Enter FB Application ID", "958223090931562");
-                    facebookConnectPlugin.browserInit(appId);
-                }
-                facebookConnectPlugin.login( ["email"], 
-                    function (response) { alert(JSON.stringify(response)) },
-                    function (response) { alert(JSON.stringify(response)) });
-            }
-            
-            var showDialog = function () { 
-                facebookConnectPlugin.showDialog( { method: "feed" }, 
-                    function (response) { alert(JSON.stringify(response)) },
-                    function (response) { alert(JSON.stringify(response)) });
-            }
-            
-            var apiTest = function () { 
-                facebookConnectPlugin.api( "me/?fields=id,email", ["user_birthday"],
-                    function (response) { alert(JSON.stringify(response)) },
-                    function (response) { alert(JSON.stringify(response)) }); 
-            }
 
-            var getAccessToken = function () { 
-                facebookConnectPlugin.getAccessToken( 
-                    function (response) { alert(JSON.stringify(response)) },
-                    function (response) { alert(JSON.stringify(response)) });
-            }
-            
-            var getStatus = function () { 
-                facebookConnectPlugin.getLoginStatus( 
-                    function (response) { alert(JSON.stringify(response)) },
-                    function (response) { alert(JSON.stringify(response)) });
-            }
-
-            var logout = function () { 
-                facebookConnectPlugin.logout( 
-                    function (response) { alert(JSON.stringify(response)) },
-                    function (response) { alert(JSON.stringify(response)) });
-            }
-</script>
 </body>
 </html>

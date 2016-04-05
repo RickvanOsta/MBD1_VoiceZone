@@ -102,7 +102,27 @@
     </div>
     
     <div role="content" class="ui-content" id="detailPage">
+        <div id="info">
+            <table width="100%">
+                <tr>
+                    <td id="play_caption">Now playing:</td>
+                    <td id="file_name"> </td>
+                </tr>
+                <tr>
+                    <td>Status:</td><td id="audio_status"> </td>
+                </tr>
+                <tr>
+                    <td>Duration:</td><td id="audio_duration"></td>
+                </tr>
+                <tr>
+                    <td>Position:</td><td id="audio_position"></td>
+                </tr>
+            </table>
+        </div>
         
+        <button id="play">Play</button>
+        <button id="pause">Pause</button>
+        <button id="stop">Stop</button>
     </div>
     
     <div data-role="footer" data-position="fixed">

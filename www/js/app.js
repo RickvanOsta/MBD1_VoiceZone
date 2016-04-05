@@ -31,9 +31,7 @@
 
 var db = null;
 var media = null;
-var mediaTimer = null;
 var fileLocation;
-var title;
 
 function getLocalStorage() {
         try {
@@ -45,7 +43,7 @@ function getLocalStorage() {
 }
 
 function setTheme(){
-    if(db.theme != ""){
+    if(db.theme !== ""){
         $('.header').removeClass("headerA");   
         $('.header').removeClass("headerB");  
         $('.header').addClass(db.theme);    
@@ -64,13 +62,24 @@ function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.
     db = getLocalStorage();
     setTheme();
     
+    var testUser = {
+        "_id": "57024f4c6afe5c1100a83d67",
+        "_name": "test",
+        "_email": "emailll",
+        "_token": "testtt"
+    };           
+    user.setUser(testUser);
+    console.log(testUser);
+    console.log(user);                   
     setNavBarTransitionNone();
     //refreshList();
     fillLists();
+                       
+    setButtonHandlers();                   
     
-    $('#record').on('tap', captureAudio);
-    
-    function listenForLogin(){
+}
+
+function listenForLogin(){
         var hasFBNotFired = true;
         if(hasFBNotFired){
         $.ajax({
@@ -94,33 +103,13 @@ function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.
             hasFBNotFired = false;
         }
     hasFBNotFired = true;
-    }
-                  
-                       
-    
-    $( "#loginButton" ).on("tap", function() {
-        var ref = window.open('https://voicezone.herokuapp.com/auth/facebook', '_blank', 'location=yes,closebuttoncaption=Done,disallowoverscroll=no,toolbar=yes');    
-        
-        
-        ref.addEventListener('exit', function(){
-        listenForLogin();
-    });
-    });  
-    
-    
-    
-    
-    
-    $( "#logoutButton" ).on("tap", function() {
-       $.ajax({
-            url: "https://voicezone.herokuapp.com/logout",
-            success: function(data){
-                listenForLogin();
-                $.mobile.changePage("#login");
-        }
-    });
-    });
-    
+} 
+
+function setButtonHandlers() {
+    $('#record').on('tap', captureAudio);
+    $('#play').on('tap', playAudio);
+    $('#stop').on('tap', stopAudio);
+    $('.refresh').on('tap', refreshList);
     
     $( "#themeAButton" ).on("tap", function() {
         db.theme='headerA';
@@ -131,16 +120,25 @@ function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.
         db.theme='headerB';
         setTheme();
     });  
-                       
-    setButtonHandlers();                   
     
-}
-
-
-function setButtonHandlers() {
-    $('#play').on('tap', playAudio);
-    $('#pause').on('tap', pauseAudio);
-    $('#stop').on('tap', stopAudio);
+    $( "#logoutButton" ).on("tap", function() {
+       $.ajax({
+            url: "https://voicezone.herokuapp.com/logout",
+            success: function(data){
+                listenForLogin();
+                $.mobile.changePage("#login");
+            }
+        });
+    });
+    
+    $( "#loginButton" ).on("tap", function() {
+        var ref = window.open('https://voicezone.herokuapp.com/auth/facebook', '_blank', 'location=yes,closebuttoncaption=Done,disallowoverscroll=no,toolbar=yes');    
+        
+        
+        ref.addEventListener('exit', function(){
+            listenForLogin();
+        });
+    }); 
 }
 
 
@@ -171,7 +169,7 @@ function fillTimeLine(voiceNotes) {
     for (var i = 0; i < voiceNotes.length; i++) {
         ul.append(
             '<li>' +
-                '<a href="#detail" class="ui-btn ui-corner-all" rel="' + voiceNotes[i].fileLocation + '">' +
+                '<a href="#detail" class="ui-btn ui-corner-all detailClicked" rel="' + voiceNotes[i].fileLocation + '">' +
                     '<h2>' + voiceNotes[i].title + '</h2>' +
                     '<p> tap to listen! </p>' +
                 '</a>' +
@@ -189,7 +187,7 @@ function fillProfile(voiceNotes) {
     for (var i = 0; i < voiceNotes.length; i++) {
         ulProfile.append(
             '<li>' +
-                '<a href="#detail" class="ui-btn ui-corner-all" rel="' + voiceNotes[i].fileLocation + '">' +
+                '<a href="#detail" class="ui-btn ui-corner-all detailClicked" rel="' + voiceNotes[i].fileLocation + '">' +
                     '<h2 class="getTitle">' + voiceNotes[i].title + '</h2>' +
                     '<p> tap! </p>' +
                 '</a>' +
@@ -198,42 +196,18 @@ function fillProfile(voiceNotes) {
     }
     
     console.log('USER ' + user.id);
-    $('.#detail').on('tap', function() {
+    $('.detailClicked').on('tap', function() {
         window.fileLocation = $(this).attr('rel');
-        
-        window.title = $('.getTitle').innerHTML;
-        console.log('FILE LOCATION: ' + fileLocation);
     });
 }
 
 function refreshList() {
-    var voiceNotes = testData(); //get voice notes
-    
-    var ul = $('#voiceNotesList ul');
-    ul.empty(); //empty the list
-    
-    var ulProfile = $('#profileList ul');
-    ulProfile.empty();
-    
-    for (var i = 0; i < voiceNotes.length; i++) {
-        ul.append(
-            '<li>' +
-                '<a href="#detail" class="ui-btn ui-corner-all tapListen" rel="' + voiceNotes[i].fileLocation + '">' +
-                    '<h2 class="getTitle">' + voiceNotes[i].title + '</h2>' +
-                    '<p>' + voiceNotes[i].username + '</p>' +
-                '</a>' +
-            '</li>'
-        );
-        
-        ulProfile.append(
-            '<li>' +
-                '<h2>' + voiceNotes[i].title + '</h2>' +
-                '<p>' + voiceNotes[i].username + '</p>' +
-            '</li>'
-        );
-    }
-    ul.listview('refresh');
-    ulProfile.listview('refresh');
+    console.log('REFRESH LIST');
+    fillLists();
+    setTimeout(function refresh() {
+        $('#voiceNotesList ul').listview('refresh');
+        $('#profileList ul').listview('refresh');
+    }, 1000);
 }
 
 
@@ -247,7 +221,7 @@ function captureSuccess(mediaFiles) {
     console.log('success');
     console.log(mediaFiles);
     for (i = 0; i < mediaFiles.length; i++) {
-        voice.post(mediaFiles[i], user);
+        voice.post(mediaFiles[i], user, refreshList);
     }
 }
 
@@ -261,83 +235,20 @@ function captureError(error) {
 function playAudio() {
     var url = "https://voicezone.herokuapp.com/" + window.fileLocation;
     
-    var media = new Media(url, playSuccess, playError, function(status) {
-        setAudioStatus(Media.MEDIA_MSG[status]);
-        
-        if (Media.MEDIA_STOPPED == status) {
-            clearInterval(mediaTimer);
-            mediaTimer = null;
-        }
-    });
+    media = new Media(url, playSuccess, playError);
     console.log(url);
     console.log('play audio');
     console.log(media);
     
-    $('#audio_duration').innerHTML = "";
-    
     //play
     media.play();
-    
-    $('#play_caption').innerHTML = "Now playing: ";
-    $('#file_name').innerHTML = window.title;
-    
-    if (mediaTimer == null && media.getCurrentPosition) {
-        mediaTimer = setInterval(
-        function() {
-            media.getCurrentPosition(
-            function(position) {
-                if (position > -1) {
-                    setAudioPosition(position+" sec");
-                }
-            },
-            function(e) {
-                setAudioPosition:("Error: " + e);
-            }); 
-        }, 1000);
-    }
-    
-    //get duration
-    var counter = 0;
-    var timerDur = setInterval(
-        function() {
-            counter = counter + 100;
-            if (counter > 2000) {
-                clearInterval(timerDur);
-            }
-            var dur = media.getDuration();
-            if (dur > 0) {
-                clearInterval(timerDur)
-            }
-        }, 100);
-}
-
-//pause audio
-function pauseAudio() {
-    
-    console.log('pause');
-    if (media) {
-        media.pause();
-    }
 }
 
 //stop audio
 function stopAudio() {
-    console.log('stop');
     if (media) {
         media.stop();
     }
-    clearInterval(mediaTimer);
-    mediaTimer = null;
-}
-
-//set audio status
-var setAudioStatus = function(status) {
-    $('#audio_status').innerHTML = status;
-}
-         
-//set audio position
-var setAudioPosition = function(position) {
-    $('#audio_position').innerHTML = position;
 }
 
 //play success cb

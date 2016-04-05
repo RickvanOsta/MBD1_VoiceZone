@@ -34,6 +34,9 @@ var media = null;
 var mediaTimer = null;
 var fileLocation;
 var title;
+var close;
+var closeLoop;
+            
 
 function getLocalStorage() {
         try {
@@ -99,12 +102,29 @@ function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.
                        
     
     $( "#loginButton" ).on("tap", function() {
-        var ref = window.open('https://voicezone.herokuapp.com/auth/facebook', '_blank', 'location=yes,closebuttoncaption=Done,disallowoverscroll=no,toolbar=yes');    
-        
-        
+        var ref = window.open('https://voicezone.herokuapp.com/auth/facebook', '_blank', 'location=no,disallowoverscroll=no,toolbar=no');
         ref.addEventListener('exit', function(){
         listenForLogin();
     });
+         ref.addEventListener('loadstop', function() {
+
+                
+        closeLoop = setInterval(function() {
+            ref.executeScript({
+                code: "getClose();"
+            },
+            function(values) {
+                close = values[0];
+                if (close == "true") {
+                     clearInterval(closeLoop);
+                     ref.close();
+                }
+            });
+        }, 2000);
+    })
+        
+        
+        
     });  
     
     

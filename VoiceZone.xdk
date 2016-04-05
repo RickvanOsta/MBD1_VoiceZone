@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-project-lite/sample.zip",
       "projectGuid": "4f6987d7-3494-4ce8-b699-25c4b75ae60d",
-      "lastModifiedDate": 1459418960251,
+      "lastModifiedDate": 1459848396207,
       "creationDate": 1457364684285
     },
     "XDK-app-designer": "false",
@@ -67,7 +67,8 @@
         "gitref": "",
         "name": "Splashscreen",
         "description": "Cordova Splashscreen Plugin",
-        "checksum": "170efb68"
+        "checksum": "170efb68",
+        "cordovaVersion": ">=3.1.0"
       },
       {
         "id": "cordova-plugin-file",
@@ -119,7 +120,8 @@
         },
         "description": "Cordova Media Capture Plugin",
         "data": {},
-        "dependedBy": []
+        "dependedBy": [],
+        "cordovaVersion": ">=3.1.0"
       },
       {
         "id": "cordova-plugin-media",
@@ -146,7 +148,8 @@
         },
         "description": "Cordova Media Plugin",
         "data": {},
-        "dependedBy": []
+        "dependedBy": [],
+        "cordovaVersion": ">=3.1.0"
       },
       {
         "id": "phonegap-facebook-plugin",
@@ -192,6 +195,25 @@
           ]
         },
         "description": "Cordova File Transfer Plugin",
+        "data": {},
+        "dependedBy": []
+      },
+      {
+        "id": "cordova-plugin-inappbrowser",
+        "name": "InAppBrowser",
+        "version": "1.1.0",
+        "originType": "cordova.io",
+        "origin": "cordova-plugin-inappbrowser",
+        "gitref": "",
+        "paramvals": {},
+        "sourceLocation": "plugins/cordova-plugin-inappbrowser",
+        "selectedState": "Included",
+        "checksum": "20096ffc",
+        "dependsOn": [],
+        "topLevel": true,
+        "cordovaVersion": ">=3.1.0",
+        "permissions": {},
+        "description": "Cordova InAppBrowser Plugin",
         "data": {},
         "dependedBy": []
       }

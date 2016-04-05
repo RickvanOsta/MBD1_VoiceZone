@@ -1,5 +1,9 @@
-.header {
+.headerA {
     background-color: #49AEF2;
+}
+
+.headerB {
+    background-color: #A594CC;
 }
 
 #logoutButton {

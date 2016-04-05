@@ -29,15 +29,38 @@
 // You can add other code to it or add additional functions that are triggered
 // by the same event or other events.
 
-function onAppReady() {
-    if( navigator.splashscreen && navigator.splashscreen.hide ) {   // Cordova API detected
+var db = null;
+
+function getLocalStorage() {
+        try {
+            if(window.localStorage ) return window.localStorage;
+        }   
+        catch (e){
+            return undefined;
+        }
+}
+
+function setTheme(){
+    if(db.theme != ""){
+        $('.header').removeClass("headerA");   
+        $('.header').removeClass("headerB");  
+        $('.header').addClass(db.theme);    
+    }
+    else {
+        $('.header').addClass("headerA");  
+    }
+    
+
+}
+
+function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.hide ) {   // Cordova API detected
         navigator.splashscreen.hide() ;
     }
     
-    var _name = "";
-    var _email = "";
-    var _token = "";
-    var _id = ""; 
+    
+    db = getLocalStorage();
+    setTheme();
+
     
     setNavBarTransitionNone();
     //refreshList();
@@ -47,15 +70,9 @@ function onAppReady() {
     
     $('#record').on('tap', captureAudio);
     
-    
-    $( "#loginButton" ).on("tap", function() {
-        listenForLogin();
-        intel.xdk.device.showRemoteSiteExt("https://voicezone.herokuapp.com/auth/facebook",280,0,50,50,60,60);
-    });  
-    
+                       
     function listenForLogin(){
         var hasFBNotFired = true;
-    window.addEventListener("intel.xdk.device.remote.close", function(){
         if(hasFBNotFired){
         $.ajax({
             url: "https://voicezone.herokuapp.com/facebooklogin",
@@ -77,9 +94,21 @@ function onAppReady() {
     });
             hasFBNotFired = false;
         }
-    });
     hasFBNotFired = true;
     }
+                  
+                       
+    
+    $( "#loginButton" ).on("tap", function() {
+        var ref = window.open('https://voicezone.herokuapp.com/auth/facebook', '_blank', 'location=yes');    
+        
+        
+        ref.addEventListener('exit', function(){
+        listenForLogin();
+    });
+    });  
+    
+    
     
     
     
@@ -92,6 +121,17 @@ function onAppReady() {
         }
     });
     });
+    
+    
+    $( "#themeAButton" ).on("tap", function() {
+        db.theme='headerA';
+        setTheme();
+    });  
+    
+    $( "#themeBButton" ).on("tap", function() {
+        db.theme='headerB';
+        setTheme();
+    });  
     
 }
 
@@ -241,6 +281,9 @@ function uploadError(error, path) {
     console.log(error);
     alert('ERROR');
 }
+
+
+
 
 document.addEventListener("app.Ready", onAppReady, false) ;
 // document.addEventListener("deviceready", onAppReady, false) ;

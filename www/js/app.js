@@ -99,7 +99,7 @@ function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.
                        
     
     $( "#loginButton" ).on("tap", function() {
-        var ref = window.open('https://voicezone.herokuapp.com/auth/facebook', '_blank', 'location=yes,closebuttoncaption=Done');    
+        var ref = window.open('https://voicezone.herokuapp.com/auth/facebook', '_blank', 'location=yes,closebuttoncaption=Done,disallowoverscroll=no,toolbar=yes');    
         
         
         ref.addEventListener('exit', function(){

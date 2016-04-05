@@ -57,12 +57,12 @@ function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.
         navigator.splashscreen.hide() ;
     }
 
-    
     db = getLocalStorage();
     setTheme();
 
 
     var fileLocation;
+
     
     setNavBarTransitionNone();
     //refreshList();

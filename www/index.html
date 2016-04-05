@@ -29,6 +29,8 @@
     <script src="cordova.js"></script>          <!-- phantom library, needed for Cordova api calls, added during build -->
     
     <!-- includes -->
+    <script src="js/api.js"></script>
+    <script src="js/voices.js"></script>
     <script src="js/users.js"></script>
     
     <script src="js/app.js"></script>           <!-- recommended location of your JavaScript code relative to other JS files -->
@@ -41,7 +43,7 @@
 
 <body>
 
-
+    
 <!-- LOGIN PAGE *****************************************************************-->
 <div data-role="page" id="login">
 
@@ -61,10 +63,7 @@
 		<h4>&copy; Raymond & Rick 2016</h4>
 	</div><!-- /footer -->
 </div><!-- /page -->
-<!-- LOGIN PAGE END ***********************************************************-->
-    
-    
-    
+<!-- LOGIN PAGE END ***********************************************************-->    
     
     
 <!-- TIME LINE PAGE ************************************************************************ -->
@@ -94,6 +93,23 @@
 <!-- TIME LINE PAGE END *************************************************************** -->
     
     
+
+   
+<div data-role="page" id="detail">
+    
+    <div data-role="header" data-theme="b" class="header" data-tap-toggle="false" data-position="fixed" data-rel="back" data-add-back-btn="true" data-back-btn-text="Back">
+        <h1 id="voiceTitle"></h1>
+    </div>
+    
+    <div role="content" class="ui-content" id="detailPage">
+        
+    </div>
+    
+    <div data-role="footer" data-position="fixed">
+		<h4>&copy; Raymond & Rick 2016</h4>
+	</div><!-- /footer -->
+    
+</div> 
     
     
     

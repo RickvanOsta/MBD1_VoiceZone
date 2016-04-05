@@ -14,3 +14,15 @@
 #loginButton {
     background: #66ccff;
 }
+
+#profileList ul {
+    text-align: center;
+}
+
+#voiceNotesList ul {
+    text-align: center;
+}
+
+.tapListen {
+    width: 100%;
+}

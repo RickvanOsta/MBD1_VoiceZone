@@ -30,6 +30,10 @@
 // by the same event or other events.
 
 var db = null;
+var media = null;
+var mediaTimer = null;
+var fileLocation;
+var title;
 
 function getLocalStorage() {
         try {
@@ -56,13 +60,9 @@ function setTheme(){
 function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.hide ) {   // Cordova API detected
         navigator.splashscreen.hide() ;
     }
-
+                       
     db = getLocalStorage();
     setTheme();
-
-
-    var fileLocation;
-
     
     setNavBarTransitionNone();
     //refreshList();
@@ -131,9 +131,17 @@ function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.
         db.theme='headerB';
         setTheme();
     });  
+                       
+    setButtonHandlers();                   
     
 }
 
+
+function setButtonHandlers() {
+    $('#play').on('tap', playAudio);
+    $('#pause').on('tap', pauseAudio);
+    $('#stop').on('tap', stopAudio);
+}
 
 
 function setNavBarTransitionNone() {
@@ -163,7 +171,7 @@ function fillTimeLine(voiceNotes) {
     for (var i = 0; i < voiceNotes.length; i++) {
         ul.append(
             '<li>' +
-                '<a href="#detail" class="ui-btn ui-corner-all clickedDetail" rel="' + voiceNotes[i].fileLocation + '">' +
+                '<a href="#detail" class="ui-btn ui-corner-all" rel="' + voiceNotes[i].fileLocation + '">' +
                     '<h2>' + voiceNotes[i].title + '</h2>' +
                     '<p> tap to listen! </p>' +
                 '</a>' +
@@ -181,17 +189,20 @@ function fillProfile(voiceNotes) {
     for (var i = 0; i < voiceNotes.length; i++) {
         ulProfile.append(
             '<li>' +
-                '<a href="#detail" class="ui-btn ui-corner-all clickedDetail" rel="' + voiceNotes[i].fileLocation + '">' +
-                    '<h2>' + voiceNotes[i].title + '</h2>' +
+                '<a href="#detail" class="ui-btn ui-corner-all" rel="' + voiceNotes[i].fileLocation + '">' +
+                    '<h2 class="getTitle">' + voiceNotes[i].title + '</h2>' +
                     '<p> tap! </p>' +
                 '</a>' +
             '</li>'
         );
     }
     
-    $('.clickedDetail').on('tap', function() {
-        fileLocation = $(this).attr('rel');
-        console.log(fileLocation);
+    console.log('USER ' + user.id);
+    $('.#detail').on('tap', function() {
+        window.fileLocation = $(this).attr('rel');
+        
+        window.title = $('.getTitle').innerHTML;
+        console.log('FILE LOCATION: ' + fileLocation);
     });
 }
 
@@ -208,7 +219,7 @@ function refreshList() {
         ul.append(
             '<li>' +
                 '<a href="#detail" class="ui-btn ui-corner-all tapListen" rel="' + voiceNotes[i].fileLocation + '">' +
-                    '<h2>' + voiceNotes[i].title + '</h2>' +
+                    '<h2 class="getTitle">' + voiceNotes[i].title + '</h2>' +
                     '<p>' + voiceNotes[i].username + '</p>' +
                 '</a>' +
             '</li>'
@@ -248,18 +259,93 @@ function captureError(error) {
 
 // PLAY AUDIO ===============================================================
 function playAudio() {
-    var url = "https://voicezone.herokuapp.com/" + $(this).attr('rel');
+    var url = "https://voicezone.herokuapp.com/" + window.fileLocation;
     
-    var media = new Media(url, playSuccess, playError)
+    var media = new Media(url, playSuccess, playError, function(status) {
+        setAudioStatus(Media.MEDIA_MSG[status]);
+        
+        if (Media.MEDIA_STOPPED == status) {
+            clearInterval(mediaTimer);
+            mediaTimer = null;
+        }
+    });
     console.log(url);
+    console.log('play audio');
     console.log(media);
+    
+    $('#audio_duration').innerHTML = "";
+    
+    //play
     media.play();
+    
+    $('#play_caption').innerHTML = "Now playing: ";
+    $('#file_name').innerHTML = window.title;
+    
+    if (mediaTimer == null && media.getCurrentPosition) {
+        mediaTimer = setInterval(
+        function() {
+            media.getCurrentPosition(
+            function(position) {
+                if (position > -1) {
+                    setAudioPosition(position+" sec");
+                }
+            },
+            function(e) {
+                setAudioPosition:("Error: " + e);
+            }); 
+        }, 1000);
+    }
+    
+    //get duration
+    var counter = 0;
+    var timerDur = setInterval(
+        function() {
+            counter = counter + 100;
+            if (counter > 2000) {
+                clearInterval(timerDur);
+            }
+            var dur = media.getDuration();
+            if (dur > 0) {
+                clearInterval(timerDur)
+            }
+        }, 100);
 }
-                          
+
+//pause audio
+function pauseAudio() {
+    
+    console.log('pause');
+    if (media) {
+        media.pause();
+    }
+}
+
+//stop audio
+function stopAudio() {
+    console.log('stop');
+    if (media) {
+        media.stop();
+    }
+    clearInterval(mediaTimer);
+    mediaTimer = null;
+}
+
+//set audio status
+var setAudioStatus = function(status) {
+    $('#audio_status').innerHTML = status;
+}
+         
+//set audio position
+var setAudioPosition = function(position) {
+    $('#audio_position').innerHTML = position;
+}
+
+//play success cb
 function playSuccess() {
     console.log('audio success');
 }
 
+//play error cb
 function playError() {
     console.log('audio error');
 }

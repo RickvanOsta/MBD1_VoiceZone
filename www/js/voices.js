@@ -78,7 +78,7 @@ Voice.prototype.getAll = function(cb) {
     
     var self = this;
     console.log('get all voice notes');
-
+    
     $.ajax({
         type: "GET",
         url: self.URL,
@@ -98,6 +98,7 @@ Voice.prototype.getAllFromUser = function(user, cb) {
     
     var self = this;
     console.log('get all voices from user');
+    console.log(user);
     var specialURL = api.URL + "/users/" + user.id + "/voices";
     
     $.ajax({

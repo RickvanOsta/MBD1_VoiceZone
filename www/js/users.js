@@ -10,9 +10,16 @@ var User = function() {
 //set user
 User.prototype.setUser = function(user) {
     
+    //user id
     this.id = user._id;
+    
+    //user name
     this.name = user._name;
+    
+    //user email
     this.email = user._email;
+    
+    //user email
     this.token = user._token;
     
     setDom(this);

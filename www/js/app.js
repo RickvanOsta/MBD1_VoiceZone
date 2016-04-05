@@ -34,6 +34,17 @@ function onAppReady() {
         navigator.splashscreen.hide() ;
     }
     
+    var fileLocation;
+    
+    var testUser = {
+        "_name": "Test Man",
+        "_id": "57024f4c6afe5c1100a83d67",
+        "_email": "testEmail",
+        "_token": "testToken1234"
+    };
+    
+    user.setUser(testUser);
+    
     var _name = "";
     var _email = "";
     var _token = "";
@@ -43,10 +54,7 @@ function onAppReady() {
     //refreshList();
     fillLists();
     
-    //TESTTTTTTTTT ******************
-    
     $('#record').on('tap', captureAudio);
-    
     
     $( "#loginButton" ).on("tap", function() {
         listenForLogin();
@@ -69,7 +77,7 @@ function onAppReady() {
                 "_email" : data.facebook.email,
                 "_token" : data.facebook.token,
                 "_id" : data._id
-                }
+                };
                 user.setUser(tempUser);
                 $.mobile.changePage("#timeline");
             }
@@ -112,7 +120,7 @@ function setNavBarTransitionNone() {
 function fillLists() {
     console.log('fill lists ajax');
     voice.getAll(fillTimeLine); //testData(); //get voice notes
-
+    voice.getAllFromUser(user, fillProfile);
 }
 
 function fillTimeLine(voiceNotes) {
@@ -121,24 +129,39 @@ function fillTimeLine(voiceNotes) {
     var ul = $('#voiceNotesList ul');
     ul.empty(); //empty the list
     
-//    var ulProfile = $('#profileList ul');
-//    ulProfile.empty();
-    
     for (var i = 0; i < voiceNotes.length; i++) {
         ul.append(
             '<li>' +
-                '<h2>' + voiceNotes[i].title + '</h2>' +
-                '<p> tap to listen! </p>' +
+                '<a href="#detail" class="ui-btn ui-corner-all clickedDetail" rel="' + voiceNotes[i].fileLocation + '">' +
+                    '<h2>' + voiceNotes[i].title + '</h2>' +
+                    '<p> tap to listen! </p>' +
+                '</a>' +
+            '</li>'
+        );   
+    }
+}
+
+function fillProfile(voiceNotes) {
+    console.log('fill profile');
+    
+    var ulProfile = $('#profileList ul');
+    ulProfile.empty();
+    
+    for (var i = 0; i < voiceNotes.length; i++) {
+        ulProfile.append(
+            '<li>' +
+                '<a href="#detail" class="ui-btn ui-corner-all clickedDetail" rel="' + voiceNotes[i].fileLocation + '">' +
+                    '<h2>' + voiceNotes[i].title + '</h2>' +
+                    '<p> tap! </p>' +
+                '</a>' +
             '</li>'
         );
-        
-//        ulProfile.append(
-//            '<li>' +
-//                '<h2>' + voiceNotes[i].title + '</h2>' +
-//                '<p>' + voiceNotes[i].username + '</p>' +
-//            '</li>'
-//        );
     }
+    
+    $('.clickedDetail').on('tap', function() {
+        fileLocation = $(this).attr('rel');
+        console.log(fileLocation);
+    });
 }
 
 function refreshList() {
@@ -153,8 +176,10 @@ function refreshList() {
     for (var i = 0; i < voiceNotes.length; i++) {
         ul.append(
             '<li>' +
-                '<h2>' + voiceNotes[i].title + '</h2>' +
-                '<p>' + voiceNotes[i].username + '</p>' +
+                '<a href="#detail" class="ui-btn ui-corner-all tapListen" rel="' + voiceNotes[i].fileLocation + '">' +
+                    '<h2>' + voiceNotes[i].title + '</h2>' +
+                    '<p>' + voiceNotes[i].username + '</p>' +
+                '</a>' +
             '</li>'
         );
         
@@ -169,24 +194,6 @@ function refreshList() {
     ulProfile.listview('refresh');
 }
 
-function testData() {
-    
-    var voiceNotes = [];
-    
-    for (var i = 0; i < 20; i++) {
-        var note = {
-            'title': 'test titel ' + i,
-            'username': 'test username ' + i,
-            'file': 'test file ' + i
-        };
-        
-        voiceNotes.push(note);
-    }
-    
-    return voiceNotes;
-}
-
-
 
 // RECORD ===================================================================
 function captureAudio() {
@@ -198,7 +205,7 @@ function captureSuccess(mediaFiles) {
     console.log('success');
     console.log(mediaFiles);
     for (i = 0; i < mediaFiles.length; i++) {
-        voice.post(mediaFiles[i]);
+        voice.post(mediaFiles[i], user);
     }
 }
 
@@ -206,6 +213,25 @@ function captureError(error) {
     console.log(error);
 }
 
+
+
+// PLAY AUDIO ===============================================================
+function playAudio() {
+    var url = "https://voicezone.herokuapp.com/" + $(this).attr('rel');
+    
+    var media = new Media(url, playSuccess, playError)
+    console.log(url);
+    console.log(media);
+    media.play();
+}
+                          
+function playSuccess() {
+    console.log('audio success');
+}
+
+function playError() {
+    console.log('audio error');
+}
 
 document.addEventListener("app.Ready", onAppReady, false) ;
 // document.addEventListener("deviceready", onAppReady, false) ;

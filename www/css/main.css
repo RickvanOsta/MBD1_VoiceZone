@@ -26,3 +26,28 @@
 .tapListen {
     width: 100%;
 }
+
+.sprite {
+  background: url(../images/icons.png) no-repeat top left;
+  display: inline-block;
+    height: 15px;
+    width: 15px;
+    zoom: 2;
+    *display:inline;
+}
+
+.home {
+  background-position: -0px -112px;
+}
+
+.flag {
+  background-position: -78px -75px;
+}
+
+.user {
+  background-position: -143px -96px;
+}
+
+.voice {
+  background-position: -143px -160px;
+}

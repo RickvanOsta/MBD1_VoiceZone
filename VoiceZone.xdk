@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-project-lite/sample.zip",
       "projectGuid": "4f6987d7-3494-4ce8-b699-25c4b75ae60d",
-      "lastModifiedDate": 1462959279613,
+      "lastModifiedDate": 1462969232214,
       "creationDate": 1457364684285
     },
     "XDK-app-designer": "false",
@@ -90,7 +90,7 @@
         "selectedState": "Included",
         "checksum": "a32414d6",
         "dependsOn": [],
-        "topLevel": true,
+        "topLevel": false,
         "permissions": {
           "android:name": [
             "android.permission.WRITE_EXTERNAL_STORAGE"
@@ -223,6 +223,24 @@
         "cordovaVersion": ">=3.1.0",
         "permissions": {},
         "description": "Cordova InAppBrowser Plugin",
+        "data": {},
+        "dependedBy": []
+      },
+      {
+        "id": "cordova-plugin-globalization",
+        "name": "Globalization",
+        "version": "1.0.2",
+        "originType": "cordova.io",
+        "origin": "cordova-plugin-globalization",
+        "gitref": "",
+        "paramvals": {},
+        "sourceLocation": "plugins/cordova-plugin-globalization",
+        "selectedState": "Included",
+        "checksum": "5d6eb3c",
+        "dependsOn": [],
+        "topLevel": true,
+        "permissions": {},
+        "description": "Cordova Globalization Plugin",
         "data": {},
         "dependedBy": []
       }

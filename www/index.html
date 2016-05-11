@@ -16,6 +16,10 @@
         @-ms-viewport { user-zoom: fixed ; }           @viewport { user-zoom: fixed ; }
     </style>
     
+    
+        
+    
+    
     <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css">
     <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons-1.4.5.min.css">
     <link rel="stylesheet" type="text/css" href="css/jquery.mobile.iscrollview.css">
@@ -27,6 +31,68 @@
     <script src="js/iscroll.js"</script>
     <script src="js/jquery.mobile.iscrollview.js"></script>
     <script src="cordova.js"></script>          <!-- phantom library, needed for Cordova api calls, added during build -->
+    <script>
+            
+    var langDE = {
+        profile : "Profil",
+        timeline: "Zeitleiste",
+        settings: "Stellungen",
+        refresh: "Aktualisieren",
+        new: "Erfassen",
+        posts: "Beiträge",
+        taptolisten: "Druck zu hören!",
+        callus: "Fragen? rufen Sie uns an!",
+        logout: "Abmelde" 
+    };
+        
+    var langEN = {
+        profile : "Profile",
+        timeline: "Timeline",
+        settings: "Settings",
+        refresh: "Refresh",
+        new: "Record New",
+        posts: "Posts",
+        taptolisten: "Tap to Listen!",
+        callus: "Questions? Call us!",
+        logout: "Logout" 
+    };
+        
+    var langNL = {
+        profile : "Profiel",
+        timeline: "Tijdlijn",
+        settings: "Opties",
+        refresh: "Verversen",
+        new: "Neem op",
+        posts: "Berichten",
+        taptolisten: "Druk om te luisteren!",
+        callus: "Vragen? Bel ons!",
+        logout: "Uitloggen" 
+    };
+        
+    var lang = langEN;
+        
+    function includeJs(lan) {
+        if(lan == "nl-NL"){
+            lang = langNL;
+        }
+        else if(lan == "de-DE"){
+            lang = langDE;
+        }
+        else {
+            lang = langEN;
+        }
+
+    }
+	
+	function checkLanguage() {
+        
+        navigator.globalization.getPreferredLanguage(
+        function (language) {includeJs(language.value); alert("imported lang " + language.value)},
+        function () {alert('Error getting language\n');}
+      );
+    
+    }
+        </script>
     
     <!-- includes -->
     <script src="js/api.js"></script>
@@ -44,36 +110,46 @@
 <body>
 
     
-<!-- LOGIN PAGE *****************************************************************-->
+    
+ <!-- LOGIN PAGE *****************************************************************-->
 <div data-role="page" id="login">
 
 	<div data-role="header" data-theme="b" class="header" data-position="fixed">
 		<h1>VoiceZone</h1>
 	</div><!-- /header -->
-    
+
 	<div role="main" class="ui-content">
         <a class="ui-btn ui-corner-all" data-transition="slide" id="loginButton">Login with Facebook</a>
-        
+                
 		<p>Welcome to VoiceZone! The Twitter for Voice Messages!</p>
 		<p>Login with Facebook to make use of this awesome app!</p>
         
+        <span class="sprite home"></span>
+        <span class="sprite voice"></span>
+        <span class="sprite user"></span>
+<span class="mmrefresh"></span>
+        
 	</div><!-- /content -->
-    
+
 	<div data-role="footer" data-position="fixed">
 		<h4>&copy; Raymond & Rick 2016</h4>
 	</div><!-- /footer -->
 </div><!-- /page -->
+
 <!-- LOGIN PAGE END ***********************************************************-->    
+
     
     
 <!-- TIME LINE PAGE ************************************************************************ -->
 <div data-role="page" id="timeline">
 
 	<div data-role="header" data-theme="b" class="header" data-tap-toggle="false"  data-position="fixed">
-		<h1>Timeline</h1>
+		<h1><span class="mmtimeline"></span></h1>
 	</div><!-- /header -->
 
 	<div role="content" class="ui-content" id="voiceNotesList" data-iscroll>
+        <button class="refresh"><span class="mmrefresh"></span></button>
+        <br/>
         <ul data-role="listview">
             
         </ul>
@@ -82,9 +158,9 @@
 	<div data-role="footer" data-position="fixed" data-id="footer" data-tap-toggle="false">
         <div data-role="navbar">
             <ul>
-                <li><a href="#timeline" data-role="tab" data-prefetch="true" data-transition="slide" class="ui-btn-active ui-state-persist">Timeline</a></li>
-                <li><a href="#profile" data-role="tab" data-prefetch="true" data-transition="slide">My Profile</a></li>
-                <li><a href="#settings" data-role="tab" data-prefetch="true" data-transition="slide">Settings</a></li>
+                <li><a href="#timeline" data-role="tab" data-prefetch="true" data-transition="slide" class="ui-btn-active ui-state-persist"><span class="mmtimeline"></span></a></li>
+                <li><a href="#profile" data-role="tab" data-prefetch="true" data-transition="slide"><span class="mmprofile"></span></a></li>
+                <li><a href="#settings" data-role="tab" data-prefetch="true" data-transition="slide"><span class="mmsettings"></span></a></li>
             </ul>
         </div>
 	</div><!-- /footer -->
@@ -102,26 +178,7 @@
     </div>
     
     <div role="content" class="ui-content" id="detailPage">
-        <div id="info">
-            <table width="100%">
-                <tr>
-                    <td id="play_caption">Now playing:</td>
-                    <td id="file_name"> </td>
-                </tr>
-                <tr>
-                    <td>Status:</td><td id="audio_status"> </td>
-                </tr>
-                <tr>
-                    <td>Duration:</td><td id="audio_duration"></td>
-                </tr>
-                <tr>
-                    <td>Position:</td><td id="audio_position"></td>
-                </tr>
-            </table>
-        </div>
-        
         <button id="play">Play</button>
-        <button id="pause">Pause</button>
         <button id="stop">Stop</button>
     </div>
     
@@ -139,17 +196,18 @@
     
     <!-- HEADER -->
     <div data-role="header" data-theme="b" class="header" data-position="fixed" data-tap-toggle="false">
-        <h1>Profile</h1>
+        <h1><span class="mmprofile"></span></h1>
     </div>
     <!-- /HEADER -->
     
     <!-- MAIN CONTENT -->
     <div role="main" class="ui-content" id="profileList">
-        <h2 id="fullname"></h2>
+        <span class="sprite user"></span><h2 id="fullname"></h2>
         <p id="username">ID_</p>
         
-        <button id="record">Record new</button>
-        <h3>posts:</h3>
+        <button id="record"><span class="mmnew"></span></button>
+        <button class="refresh"><span class="mmrefresh"></span></button>
+        <h3><span class="mmposts"></span>:</h3>
         
         <ul data-role="listview">
             
@@ -160,9 +218,9 @@
     <div data-role="footer" data-position="fixed" data-id="footer" data-tap-toggle="false">
         <div data-role="navbar">
             <ul>
-                <li><a href="#timeline" data-role="tab" data-prefetch="true" data-transition="slide">Timeline</a></li>
-                <li><a href="#profile" data-role="tab" data-prefetch="true" data-transition="slide" class="ui-btn-active ui-state-persist">My Profile</a></li>
-                <li><a href="#settings" data-role="tab" data-prefetch="true" data-transition="slide">Settings</a></li>
+                <li><a href="#timeline" data-role="tab" data-prefetch="true" data-transition="slide"><span class="mmtimeline"></span></a></li>
+                <li><a href="#profile" data-role="tab" data-prefetch="true" data-transition="slide" class="ui-btn-active ui-state-persist"><span class="mmprofile"></span></a></li>
+                <li><a href="#settings" data-role="tab" data-prefetch="true" data-transition="slide"><span class="mmsettings"></span></a></li>
             </ul>
         </div>
 	</div><!-- /footer -->
@@ -180,24 +238,25 @@
     
     <!-- HEADER -->
     <div data-role="header" data-theme="b" class="header" data-position="fixed">
-        <h1>Settings</h1>
+        <h1><span class="mmsettings"></span></h1>
     </div>
     <!-- /HEADER -->
     
     <!-- MAIN CONTENT -->
     <div role="main" class="ui-content">
-        <a data-role="button" id="logoutButton">Logout</a>
+        <a data-role="button" id="logoutButton"><span class="mmlogout"></span></a>
         <a data-role="button" id="themeAButton">Set Theme A</a>
         <a data-role="button" id="themeBButton">Set Theme B</a>
+        <a href="tel:+31634448240"><span class="mmcallus"></span></a>
     </div>
     <!-- /MAIN CONTENT -->
   
     <div data-role="footer" data-position="fixed" data-id="footer">
         <div data-role="navbar">
             <ul>
-                <li><a href="#timeline" data-role="tab" data-prefetch="true" data-transition="slide">Timeline</a></li>
-                <li><a href="#profile" data-role="tab" data-prefetch="true" data-transition="slide">My Profile</a></li>
-                <li><a href="#settings" data-role="tab" data-prefetch="true" data-transition="slide" class="ui-btn-active ui-state-persist">Settings</a></li>
+                <li><a href="#timeline" data-role="tab" data-prefetch="true" data-transition="slide"><span class="mmtimeline"></span></a></li>
+                <li><a href="#profile" data-role="tab" data-prefetch="true" data-transition="slide"><span class="mmprofile"></span></a></li>
+                <li><a href="#settings" data-role="tab" data-prefetch="true" data-transition="slide" class="ui-btn-active ui-state-persist"><span class="mmsettings"></span></a></li>
             </ul>
         </div>
 	</div><!-- /footer -->

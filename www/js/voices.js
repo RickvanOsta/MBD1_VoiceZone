@@ -9,11 +9,11 @@ Voice.prototype.getURL = function() {
     return this.URL;
 };
 
-Voice.prototype.post = function(mediaFile, user) {
+Voice.prototype.post = function(mediaFile, user, cb) {
     
     var self = this;
     var _user = user;
-    
+    var _cb = cb;
     // Upload files to server
     var ft = new FileTransfer(),
             path = mediaFile.fullPath,
@@ -43,18 +43,18 @@ Voice.prototype.post = function(mediaFile, user) {
         
         var parse = JSON.parse(result.response);
         var fileName = parse.filename;
-        self.updateWithUser(fileName, _user);
+        self.updateWithUser(fileName, _user, _cb);
     }
 
 };
 
-Voice.prototype.updateWithUser = function(fileName, user) {
+Voice.prototype.updateWithUser = function(fileName, user, cb) {
     
     var self = this;
     var putURL = self.URL + "/" + fileName;
     var data = { "uid": user.id }
     var jsonData = JSON.stringify(data);
-    
+    var _cb = cb;
     console.log('update voice with user ID with id: ' + user.id);
     console.log('url: ' + putURL);
 
@@ -65,6 +65,7 @@ Voice.prototype.updateWithUser = function(fileName, user) {
         data: jsonData,
         success: function(result) {
             console.log(result);
+            _cb();
             alert('You have added a new voice note!');
         },
         error: function(jqXHR, status, errorThrown) {

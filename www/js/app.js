@@ -31,7 +31,6 @@
 
 var db = null;
 var media = null;
-var mediaTimer = null;
 var fileLocation;
 var title;
 var close;
@@ -48,7 +47,7 @@ function getLocalStorage() {
 }
 
 function setTheme(){
-    if(db.theme != ""){
+    if(db.theme !== ""){
         $('.header').removeClass("headerA");   
         $('.header').removeClass("headerB");  
         $('.header').addClass(db.theme);    
@@ -60,20 +59,83 @@ function setTheme(){
 
 }
 
+function setTexts(){
+    $('.mmprofile').text(lang.profile);
+    $('.mmtimeline').text(lang.timeline);
+    $('.mmsettings').text(lang.settings);
+    $('.mmrefresh').text(lang.refresh);
+    $('.mmnew').text(lang.new);
+    $('.mmposts').text(lang.posts);
+    $('.mmtaptolisten').text(lang.taptolisten);
+    $('.mmcallus').text(lang.callus);
+    $('.mmlogout').text(lang.logout);
+}
+
 function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.hide ) {   // Cordova API detected
         navigator.splashscreen.hide() ;
     }
                        
+    checkLanguage();                   
+                       
     db = getLocalStorage();
     setTheme();
     
+    var testUser = {
+        "_id": "57024f4c6afe5c1100a83d67",
+        "_name": "test",
+        "_email": "emailll",
+        "_token": "testtt"
+    };           
+    user.setUser(testUser);
+    console.log(testUser);
+    console.log(user);                   
     setNavBarTransitionNone();
     //refreshList();
     fillLists();
-    
-    $('#record').on('tap', captureAudio);
-    
-    function listenForLogin(){
+                       
+    setButtonHandlers();  
+                       
+//    x=document.getElementsByClassName("mmprofile");  // Find the elements
+//    for(var i = 0; i < x.length; i++){
+//        x[i].innerText=lang.profile;    // Change the content
+//    }
+//    x=document.getElementsByClassName("mmtimeline");  // Find the elements
+//    for(var i = 0; i < x.length; i++){
+//        x[i].innerText=lang.timeline;    // Change the content
+//    }
+//    x=document.getElementsByClassName("mmsettings");  // Find the elements
+//    for(var i = 0; i < x.length; i++){
+//        x[i].innerText=lang.settings;    // Change the content
+//    }
+//    x=document.getElementsByClassName("mmrefresh");  // Find the elements
+//    for(var i = 0; i < x.length; i++){
+//        x[i].innerText=lang.refresh;    // Change the content
+//    }
+//    x=document.getElementsByClassName("mmnew");  // Find the elements
+//    for(var i = 0; i < x.length; i++){
+//        x[i].innerText=lang.new;    // Change the content
+//    }
+//    x=document.getElementsByClassName("mmposts");  // Find the elements
+//    for(var i = 0; i < x.length; i++){
+//        x[i].innerText=lang.posts;    // Change the content
+//    }
+//    x=document.getElementsByClassName("mmtaptolisten");  // Find the elements
+//    for(var i = 0; i < x.length; i++){
+//        x[i].innerText=lang.taptolisten;    // Change the content
+//    }
+//    x=document.getElementsByClassName("mmcallus");  // Find the elements
+//    for(var i = 0; i < x.length; i++){
+//        x[i].innerText=lang.callus;    // Change the content
+//    }
+//    x=document.getElementsByClassName("mmlogout");  // Find the elements
+//    for(var i = 0; i < x.length; i++){
+//        x[i].innerText=lang.logout;    // Change the content
+//    }
+  
+    setTexts();
+}
+
+function listenForLogin(){
         var hasFBNotFired = true;
         if(hasFBNotFired){
         $.ajax({
@@ -95,11 +157,16 @@ function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.
         }
     });
             hasFBNotFired = false;
+            setTexts();
         }
     hasFBNotFired = true;
-    }
-                  
-                       
+} 
+
+function setButtonHandlers() {
+    $('#record').on('tap', captureAudio);
+    $('#play').on('tap', playAudio);
+    $('#stop').on('tap', stopAudio);
+    $('.refresh').on('tap', refreshList);
     
     $( "#loginButton" ).on("tap", function() {
         var ref = window.open('https://voicezone.herokuapp.com/auth/facebook', '_blank', 'location=no,disallowoverscroll=no,toolbar=no');
@@ -122,26 +189,11 @@ function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.
             });
         }, 2000);
     })
-        
-        
-        
-    });  
-    
-    
-    
-    
-    
-    $( "#logoutButton" ).on("tap", function() {
-       $.ajax({
-            url: "https://voicezone.herokuapp.com/logout",
-            success: function(data){
-                listenForLogin();
-                $.mobile.changePage("#login");
-        }
     });
-    });
-    
-    
+        
+        
+        
+
     $( "#themeAButton" ).on("tap", function() {
         db.theme='headerA';
         setTheme();
@@ -151,16 +203,17 @@ function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.
         db.theme='headerB';
         setTheme();
     });  
-                       
-    setButtonHandlers();                   
     
-}
-
-
-function setButtonHandlers() {
-    $('#play').on('tap', playAudio);
-    $('#pause').on('tap', pauseAudio);
-    $('#stop').on('tap', stopAudio);
+    $( "#logoutButton" ).on("tap", function() {
+       $.ajax({
+            url: "https://voicezone.herokuapp.com/logout",
+            success: function(data){
+                listenForLogin();
+                $.mobile.changePage("#login");
+            }
+        });
+    });
+    
 }
 
 
@@ -191,9 +244,10 @@ function fillTimeLine(voiceNotes) {
     for (var i = 0; i < voiceNotes.length; i++) {
         ul.append(
             '<li>' +
-                '<a href="#detail" class="ui-btn ui-corner-all" rel="' + voiceNotes[i].fileLocation + '">' +
+                '<a href="#detail" class="ui-btn ui-corner-all detailClicked" rel="' + voiceNotes[i].fileLocation + '">' +
+                    '<span class="sprite voice"></span>' +
                     '<h2>' + voiceNotes[i].title + '</h2>' +
-                    '<p> tap to listen! </p>' +
+                    '<p><span class="mmtaptolisten"></span></p>' +
                 '</a>' +
             '</li>'
         );   
@@ -209,7 +263,7 @@ function fillProfile(voiceNotes) {
     for (var i = 0; i < voiceNotes.length; i++) {
         ulProfile.append(
             '<li>' +
-                '<a href="#detail" class="ui-btn ui-corner-all" rel="' + voiceNotes[i].fileLocation + '">' +
+                '<a href="#detail" class="ui-btn ui-corner-all detailClicked" rel="' + voiceNotes[i].fileLocation + '">' +
                     '<h2 class="getTitle">' + voiceNotes[i].title + '</h2>' +
                     '<p> tap! </p>' +
                 '</a>' +
@@ -218,42 +272,19 @@ function fillProfile(voiceNotes) {
     }
     
     console.log('USER ' + user.id);
-    $('.#detail').on('tap', function() {
+    $('.detailClicked').on('tap', function() {
         window.fileLocation = $(this).attr('rel');
-        
-        window.title = $('.getTitle').innerHTML;
-        console.log('FILE LOCATION: ' + fileLocation);
     });
 }
 
 function refreshList() {
-    var voiceNotes = testData(); //get voice notes
-    
-    var ul = $('#voiceNotesList ul');
-    ul.empty(); //empty the list
-    
-    var ulProfile = $('#profileList ul');
-    ulProfile.empty();
-    
-    for (var i = 0; i < voiceNotes.length; i++) {
-        ul.append(
-            '<li>' +
-                '<a href="#detail" class="ui-btn ui-corner-all tapListen" rel="' + voiceNotes[i].fileLocation + '">' +
-                    '<h2 class="getTitle">' + voiceNotes[i].title + '</h2>' +
-                    '<p>' + voiceNotes[i].username + '</p>' +
-                '</a>' +
-            '</li>'
-        );
-        
-        ulProfile.append(
-            '<li>' +
-                '<h2>' + voiceNotes[i].title + '</h2>' +
-                '<p>' + voiceNotes[i].username + '</p>' +
-            '</li>'
-        );
-    }
-    ul.listview('refresh');
-    ulProfile.listview('refresh');
+    console.log('REFRESH LIST');
+    setTexts();
+    fillLists();
+    setTimeout(function refresh() {
+        $('#voiceNotesList ul').listview('refresh');
+        $('#profileList ul').listview('refresh');
+    }, 1000);
 }
 
 
@@ -267,7 +298,7 @@ function captureSuccess(mediaFiles) {
     console.log('success');
     console.log(mediaFiles);
     for (i = 0; i < mediaFiles.length; i++) {
-        voice.post(mediaFiles[i], user);
+        voice.post(mediaFiles[i], user, refreshList);
     }
 }
 
@@ -281,83 +312,20 @@ function captureError(error) {
 function playAudio() {
     var url = "https://voicezone.herokuapp.com/" + window.fileLocation;
     
-    var media = new Media(url, playSuccess, playError, function(status) {
-        setAudioStatus(Media.MEDIA_MSG[status]);
-        
-        if (Media.MEDIA_STOPPED == status) {
-            clearInterval(mediaTimer);
-            mediaTimer = null;
-        }
-    });
+    media = new Media(url, playSuccess, playError);
     console.log(url);
     console.log('play audio');
     console.log(media);
     
-    $('#audio_duration').innerHTML = "";
-    
     //play
     media.play();
-    
-    $('#play_caption').innerHTML = "Now playing: ";
-    $('#file_name').innerHTML = window.title;
-    
-    if (mediaTimer == null && media.getCurrentPosition) {
-        mediaTimer = setInterval(
-        function() {
-            media.getCurrentPosition(
-            function(position) {
-                if (position > -1) {
-                    setAudioPosition(position+" sec");
-                }
-            },
-            function(e) {
-                setAudioPosition:("Error: " + e);
-            }); 
-        }, 1000);
-    }
-    
-    //get duration
-    var counter = 0;
-    var timerDur = setInterval(
-        function() {
-            counter = counter + 100;
-            if (counter > 2000) {
-                clearInterval(timerDur);
-            }
-            var dur = media.getDuration();
-            if (dur > 0) {
-                clearInterval(timerDur)
-            }
-        }, 100);
-}
-
-//pause audio
-function pauseAudio() {
-    
-    console.log('pause');
-    if (media) {
-        media.pause();
-    }
 }
 
 //stop audio
 function stopAudio() {
-    console.log('stop');
     if (media) {
         media.stop();
     }
-    clearInterval(mediaTimer);
-    mediaTimer = null;
-}
-
-//set audio status
-var setAudioStatus = function(status) {
-    $('#audio_status').innerHTML = status;
-}
-         
-//set audio position
-var setAudioPosition = function(position) {
-    $('#audio_position').innerHTML = position;
 }
 
 //play success cb

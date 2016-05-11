@@ -116,8 +116,8 @@ function onAppReady() {    if( navigator.splashscreen && navigator.splashscreen.
             function(values) {
                 close = values[0];
                 if (close == "true") {
-                     clearInterval(closeLoop);
                      ref.close();
+                    clearInterval(closeLoop);
                 }
             });
         }, 2000);

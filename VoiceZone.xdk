@@ -1,17 +1,25 @@
 {
   "project": {
-    "projectSettingsVersion": "2.0.0",
+    "projectSettingsVersion": "3.0.0",
     "creationData": {
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-project-lite/sample.zip",
       "projectGuid": "4f6987d7-3494-4ce8-b699-25c4b75ae60d",
-      "lastModifiedDate": 1459848396207,
+      "lastModifiedDate": 1462959279613,
       "creationDate": 1457364684285
     },
     "XDK-app-designer": "false",
     "sourceDirectory": "www",
     "startFile": "index.html",
-    "projectFiles": {},
+    "projectFiles": {
+      "xdk-publish-meta-data.json": {
+        "settings": {
+          "project": {
+            "XDK-not-deployed": "True"
+          }
+        }
+      }
+    },
     "projectDirectories": {},
     "libraries": [],
     "serviceMethods": [],
@@ -172,7 +180,8 @@
         "permissions": {},
         "description": "\r\n      This is the official plugin for Facebook in Apache Cordova/PhoneGap!\r\n      \r\n      The Facebook plugin for Apache Cordova allows you to use the same JavaScript code in your\r\n      Cordova application as you use in your web application.\r\n      Docs: https://github.com/Wizcorp/phonegap-facebook-plugin.\r\n    ",
         "data": {},
-        "dependedBy": []
+        "dependedBy": [],
+        "custom": "true"
       },
       {
         "id": "cordova-plugin-file-transfer",
@@ -219,91 +228,31 @@
       }
     ],
     "buildConfigurations": {
-      "Android-Crosswalk": {
-        "platform_": "android",
-        "runtime_": "Crosswalk with Cordova 3.x",
-        "name_": "Android-Crosswalk",
-        "preferences_": {
-          "android-minSdkVersion": "14",
-          "android-targetSdkVersion": "19",
-          "android-installLocation": "auto"
-        },
-        "isActive_": true,
-        "appName_": "VoiceZone",
-        "appID_": "xdk.intel.cordova.template.lite",
-        "appAccess_": {
-          "mode": "legacy",
-          "network": [
-            "*"
-          ],
-          "intents": [],
-          "navigation": []
-        },
-        "icons_": [],
-        "splashes_": [],
-        "addlPermissions_": "",
-        "excludedLibraries_": "",
-        "cordovaCLIVersion_": "5.1.1",
-        "crosswalkVersion_": "15",
-        "appVersion_": "0.0.1",
-        "appDescription_": "Universal init code for Intel XDK and Cordova device ready detection, as well as within browser.",
-        "appAuthor_": "Intel XDK",
-        "appVersionCode_": "1"
-      },
-      "Android": {
-        "platform_": "android",
-        "runtime_": "Cordova 3.x",
-        "name_": "Android",
-        "preferences_": {
-          "android-minSdkVersion": "14",
-          "android-targetSdkVersion": "19",
-          "android-installLocation": "auto"
-        },
-        "isActive_": true,
-        "appName_": "VoiceZone",
-        "appID_": "xdk.intel.cordova.template.lite",
-        "appAccess_": {
-          "mode": "legacy",
-          "network": [
-            "*"
-          ],
-          "intents": [],
-          "navigation": []
-        },
-        "icons_": [],
-        "splashes_": [],
-        "addlPermissions_": "",
-        "excludedLibraries_": "",
-        "cordovaCLIVersion_": "5.1.1",
-        "crosswalkVersion_": "14",
-        "appVersion_": "0.0.1",
-        "appDescription_": "Universal init code for Intel XDK and Cordova device ready detection, as well as within browser.",
-        "appAuthor_": "Intel XDK",
-        "appVersionCode_": "1"
-      },
       "iOS": {
         "platform_": "ios",
         "runtime_": "Cordova 3.x",
         "name_": "iOS",
         "preferences_": {
-          "ios-target": "6",
-          "ios-configuration": "adhoc"
+          "ios-configuration": "adhoc",
+          "deployment-target": "6"
         },
         "isActive_": true,
         "appName_": "VoiceZone",
         "appID_": "xdk.intel.cordova.template.lite",
         "appAccess_": {
-          "mode": "legacy",
+          "mode": "whitelist",
           "network": [
             "*"
           ],
           "intents": [],
-          "navigation": []
+          "navigation": [],
+          "properties": {}
         },
         "icons_": [],
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
+        "certificateId_": "",
         "iosProvs_": [],
         "cordovaCLIVersion_": "5.1.1",
         "appAuthor_": "Intel XDK",
@@ -323,17 +272,19 @@
         "appName_": "VoiceZone",
         "appID_": "xdk.intel.cordova.template.lite",
         "appAccess_": {
-          "mode": "legacy",
+          "mode": "whitelist",
           "network": [
             "*"
           ],
           "intents": [],
-          "navigation": []
+          "navigation": [],
+          "properties": {}
         },
         "icons_": [],
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
+        "certificateId_": "",
         "cordovaCLIVersion_": "5.1.1",
         "crosswalkVersion_": "14",
         "appAuthor_": "Intel XDK",
@@ -360,6 +311,7 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
+        "certificateId_": "",
         "appAuthor_": "Intel XDK",
         "appVersion_": "0.0.1",
         "appDescription_": "Universal init code for Intel XDK and Cordova device ready detection, as well as within browser."
@@ -384,6 +336,7 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
+        "certificateId_": "",
         "appAuthor_": "Intel XDK",
         "appVersion_": "0.0.1",
         "appDescription_": "Universal init code for Intel XDK and Cordova device ready detection, as well as within browser."
@@ -408,6 +361,7 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
+        "certificateId_": "",
         "appAuthor_": "Intel XDK",
         "appVersion_": "0.0.1",
         "appDescription_": "Universal init code for Intel XDK and Cordova device ready detection, as well as within browser."
@@ -432,6 +386,7 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
+        "certificateId_": "",
         "appAuthor_": "Intel XDK",
         "appVersion_": "0.0.1",
         "appDescription_": "Universal init code for Intel XDK and Cordova device ready detection, as well as within browser."
@@ -454,9 +409,42 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
+        "certificateId_": "",
         "appVersion_": "0.0.0.1",
         "cordovaCLIVersion_": "5.1.1",
         "appAuthor_": "Intel XDK"
+      },
+      "Android": {
+        "platform_": "android",
+        "runtime_": "Crosswalk with Cordova 3.x",
+        "name_": "Android",
+        "preferences_": {
+          "android-minSdkVersion": "14",
+          "android-targetSdkVersion": "19",
+          "android-installLocation": "auto"
+        },
+        "isActive_": true,
+        "appName_": "VoiceZone",
+        "appID_": "xdk.intel.cordova.template.lite",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "certificateId_": "",
+        "cordovaCLIVersion_": "5.1.1",
+        "crosswalkVersion_": "15",
+        "appVersion_": "0.0.1",
+        "appDescription_": "Universal init code for Intel XDK and Cordova device ready detection, as well as within browser.",
+        "appAuthor_": "Intel XDK",
+        "appVersionCode_": "1"
       }
     },
     "gameAssetDirectory": "asset",
